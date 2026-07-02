@@ -9,7 +9,6 @@ Notes:
 
 from datetime import datetime
 import re
-import types
 import urllib3
 
 
@@ -20,17 +19,12 @@ from nomad.api import exceptions
 import requests
 
 import ai4papi.conf as papiconf
-import ai4papi.nomad.patches as nomad_patches
 
 # Disable warning from python-nomad
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 
 Nomad = nomad.Nomad()
-# TODO: Remove monkey-patches when the code is merged to python-nomad Pypi package
-Nomad.job.deregister_job = types.MethodType(nomad_patches.deregister_job, Nomad.job)
-Nomad.job.get_allocations = types.MethodType(nomad_patches.get_allocations, Nomad.job)
-Nomad.job.get_evaluations = types.MethodType(nomad_patches.get_allocations, Nomad.job)
 
 # Persistent requests session for faster requests
 session = requests.Session()
